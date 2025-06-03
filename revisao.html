@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisão Matriz</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .container {
+        background-color: blue;
+        text-align: center;
+        width: 210px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+        border-radius: 8px;
+    }
+
+    .item {
+        background-color: red;
+        width: 50px;
+        height: 50px;
+        margin: 10px;
+        border-radius: 3px;
+    }
+</style>
+
+<body>
+    <button onclick="montarMatriz()">Montar Matriz</button>
+    
+    <div class="container" id="div_matriz">
+        <!-- <div class="item">X</div> -->
+    </div>
+    
+    <br><br>
+
+    <input type="text" id="ipt_linha" placeholder="LINHA">
+    <input type="text" id="ipt_coluna" placeholder="COLUNA">
+    <button onclick="consultarMatriz()">Consultar</button>
+    <div id="resposta"></div>
+
+    <br>
+    <br>
+
+    <button onclick="somarLinhas()">Somar números de cada linha</button>
+    <button onclick="somarColunas()">Somar números de cada coluna</button>
+    <div id="soma"></div>
+
+</body>
+
+<script>
+    let minhaMatriz = [];
+
+    var qtdLinhas = 0; // a quantidade linhas podem aumentar de tamanho
+    var qtdColunas = 3;
+
+
+    function montarMatriz() {
+        div_matriz.innerHTML = "";
+        soma.innerHTML = "";
+
+        qtdLinhas += 3;
+
+        let valorInicial = 5;
+
+        for (let linha = 0; linha < qtdLinhas; linha++) {
+            minhaMatriz[linha] = [];
+            for (let coluna = 0; coluna < qtdColunas; coluna++) {
+                minhaMatriz[linha][coluna] = valorInicial;
+                valorInicial += 5;
+
+                //já preenchi, agora vou colocar no html:
+                div_matriz.innerHTML += `
+                    <div class="item"> ${minhaMatriz[linha][coluna]}</div>
+                `;
+            }
+        }
+
+        console.log(minhaMatriz);
+    }
+
+    function consultarMatriz(){
+        let linha = Number(ipt_linha.value);
+        let coluna = Number(ipt_coluna.value);
+
+        let valor = minhaMatriz[linha][coluna];
+
+        resposta.innerHTML = `O valor da linha ${linha} e da coluna ${coluna} é: ${valor}`
+    }
+
+    function somarLinhas(){
+        soma.innerHTML = "";
+
+        if (minhaMatriz.length == 0){
+            alert("Clique em 'Montar Matriz' primeiro!");
+            return;
+        }
+        
+        for (let linha = 0; linha < qtdLinhas; linha++) {
+            let valorInicial = 0;
+            let outroValor = 0;
+            for (let coluna = 0; coluna < qtdColunas; coluna++) {
+                outroValor = minhaMatriz[linha][coluna];
+                valorInicial += outroValor;
+                soma.innerHTML += `<br>
+                    Soma da linha ${linha}: ${valorInicial}
+                    `;
+            }
+        }
+    }
+
+    function somarColunas(){
+        soma.innerHTML = "";
+
+        if (minhaMatriz.length == 0){
+            alert("Clique em 'Montar Matriz' primeiro!");
+            return;
+        }
+        
+        for (let coluna = 0; coluna < qtdColunas; coluna++) {
+            let valorInicial = 0;
+            let outroValor = 0;
+            for (let linha = 0; linha < qtdLinhas; linha++) {
+                outroValor = minhaMatriz[linha][coluna];
+                valorInicial += outroValor;
+            }
+            soma.innerHTML += `<br>
+                Soma da coluna ${coluna}: ${valorInicial}
+                `;
+        }
+    }
+</script>
+
+</html>
